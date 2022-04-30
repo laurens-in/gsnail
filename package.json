@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "postbuild": "cp ./CNAME ./dist/",
+    "preview": "vite preview",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "react": "^18.0.0",
