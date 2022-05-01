@@ -24,9 +24,11 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={snail}></img>
-        <h1>
-          don't use <s>gmail</s>, be a <b>gsnail</b>!
-        </h1>
+        {showInfo && (
+          <h1 className={count >= 3 ? " disappear" : ""}>
+            don't use <s>gmail</s>, be a <b>gsnail</b>!
+          </h1>
+        )}
         {!loading && <button onClick={() => setLoading(true)}>Sign up!</button>}
         {loading && (
           <>
