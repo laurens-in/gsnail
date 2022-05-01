@@ -3,9 +3,10 @@ import logo from "./logo.svg";
 import snail from "./assets/snail_creep.gif";
 import { features } from "./data/features";
 import "./App.css";
+import { Loader } from "./components/Loader";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   return (
     <div className="App">
@@ -14,7 +15,8 @@ function App() {
         <h1>
           don't use <s>gmail</s>, be a <b>gsnail</b>!
         </h1>
-        <button>Sign up!</button>
+        {!loading && <button onClick={() => setLoading(true)}>Sign up!</button>}
+        {loading && <Loader />}
       </header>
       {features.map((feature, index) => (
         <div
