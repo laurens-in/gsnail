@@ -6,25 +6,13 @@ import "./App.css";
 import { Loader } from "./components/Loader";
 import { messages } from "./data/messages";
 import client from "./assets/client.png";
+import rorschach from "./assets/rorschach.png";
+import { Message } from "./components/Message";
 
 function App() {
   const [progress, setProgress] = useState<number>(0);
 
   const [count, setCount] = useState(0);
-  const [currentMessage, setCurrentMessage] = useState<string>("");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setCurrentMessage(messages[count]?.message);
-      if (!messages[count].wait) setCount(count + 1);
-    }, messages[count - 1]?.duration ?? 8000);
-  }, [count]);
-
-  useEffect(() => {
-    // progress count relationsship
-    if (count === 3) setProgress(2);
-    if (count === 4) setProgress(3);
-  }, [count]);
 
   return (
     <div className="App">
@@ -42,7 +30,11 @@ function App() {
           <>
             <Loader />
             <div id="message">
-              <p>{currentMessage}</p>
+              <Message
+                count={count}
+                setCount={setCount}
+                setProgress={setProgress}
+              />
             </div>
           </>
         )}
@@ -79,7 +71,25 @@ function App() {
           </div>
         </div>
       )}
-      {progress === 3 && <></>}
+      {progress === 4 && (
+        <div className="rorschach">
+          <img src={rorschach}></img>
+          <div className="rorschachButtons">
+            <button
+              onClick={() => setCount(count + 1)}
+              style={{ backgroundColor: "red" }}
+            >
+              Snail
+            </button>
+            <button
+              onClick={() => setCount(count + 1)}
+              style={{ backgroundColor: "green" }}
+            >
+              Slug
+            </button>
+          </div>
+        </div>
+      )}
       <footer>
         <p>gsnail™ is a trademark owned by Gslug Inc.</p>
       </footer>

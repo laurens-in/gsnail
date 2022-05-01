@@ -15,13 +15,12 @@ export const messages: Message[] = [
     duration: 5000,
   },
   {
-    message:
-      "Ok how about this, you can fill out the form below, then print it out and send to us via mail?",
-    duration: 5000,
+    message: "What do you see in the image down below?",
+    duration: 0,
     wait: true,
   },
   {
-    message: "This is fine don't worry!",
+    message: "...I see",
     duration: 5000,
   },
 ];
