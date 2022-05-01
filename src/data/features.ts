@@ -1,6 +1,7 @@
 import ad from "../assets/ad.png";
 import eye from "../assets/eye.png";
 import key from "../assets/key.png";
+import source from "../assets/open-source.png";
 
 export const features: Feature[] = [
   {
@@ -20,5 +21,11 @@ export const features: Feature[] = [
     description:
       "While most mail providers use OpenPGP, we are proud to go one step further. With Open™PGP technology, even your private keys are public! This guarantees us access to all your private conversations in case we need it, because our moto is 'if you have nothing to hide, don't worry about it'.",
     img: key,
+  },
+  {
+    title: "Open Source",
+    description:
+      "We love open source! Why wouldn't we, it's free. We use all kinds of open-source code, but sadly we are not able to contribute back to the community, also we don't violate any licenses, so don't bother checking please.",
+    img: source,
   },
 ];

@@ -5,13 +5,13 @@ import { features } from "./data/features";
 import "./App.css";
 import { Loader } from "./components/Loader";
 import { messages } from "./data/messages";
+import client from "./assets/client.png";
 
 function App() {
-  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState<number>(0);
 
   const [count, setCount] = useState(0);
   const [currentMessage, setCurrentMessage] = useState<string>("");
-  const [showInfo, setShowInfo] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
@@ -20,17 +20,25 @@ function App() {
     }, messages[count - 1]?.duration ?? 8000);
   }, [count]);
 
+  useEffect(() => {
+    // progress count relationsship
+    if (count === 3) setProgress(2);
+    if (count === 4) setProgress(3);
+  }, [count]);
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={snail}></img>
-        {showInfo && (
-          <h1 className={count >= 3 ? " disappear" : ""}>
+        {progress <= 2 && (
+          <h1 className={progress === 2 ? " disappear" : ""}>
             don't use <s>gmail</s>, be a <b>gsnail</b>!
           </h1>
         )}
-        {!loading && <button onClick={() => setLoading(true)}>Sign up!</button>}
-        {loading && (
+        {progress === 0 && (
+          <button onClick={() => setProgress(1)}>Sign up!</button>
+        )}
+        {progress > 0 && (
           <>
             <Loader />
             <div id="message">
@@ -39,11 +47,8 @@ function App() {
           </>
         )}
       </header>
-      {showInfo && (
-        <div
-          className={"info" + (count >= 3 ? " disappear" : "")}
-          onTransitionEnd={() => setShowInfo(false)}
-        >
+      {progress <= 2 && (
+        <div className={"info" + (progress === 2 ? " disappear" : "")}>
           {features.map((feature, index) => (
             <div
               className={"feature" + (index % 2 === 0 ? "" : " odd")}
@@ -56,8 +61,25 @@ function App() {
               <img className="featureImg" src={feature.img}></img>
             </div>
           ))}
+          <div className="client">
+            <h1>Meet our cross-plattform client!</h1>
+            <img src={client}></img>
+            <p>
+              It works on every plattform you could dream of! Windows XP,
+              Windows Vista, Windows 10 you name it! Collaborate with your whole
+              team, even on the go, with our new Windows Phone OS mobile client!
+            </p>
+          </div>
+          <div style={{ textAlign: "center", marginTop: "100px" }}>
+            <h1>I'm hooked, where do I sign up?</h1>
+            <p>
+              We love to hear it! Sadly the sign-up button is at the top of the
+              page, so you will have to scroll back up.
+            </p>
+          </div>
         </div>
       )}
+      {progress === 3 && <></>}
       <footer>
         <p>gsnail™ is a trademark owned by Gslug Inc.</p>
       </footer>

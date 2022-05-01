@@ -63,6 +63,24 @@ footer {
   transition: opacity 3s;
 }
 
+.client h1 {
+  text-align: center;
+  margin-top: 75px;
+  margin-bottom: 30px;
+}
+
+.client img {
+  display: block;
+  width: 80%;
+  margin: auto;
+}
+
+.client p {
+  width: 80%;
+  margin: auto;
+  margin-top: 30px;
+}
+
 #message {
   min-height: 100px;
   text-align: center;
