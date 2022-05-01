@@ -53,9 +53,20 @@ button {
 }
 
 footer {
-  margin-top: 100px;
+  margin-top: 75px;
   border-top: 2px solid slategray;
   color: slategray;
+}
+
+.disappear {
+  opacity: 0;
+  transition: opacity 3s;
+}
+
+#message {
+  min-height: 100px;
+  text-align: center;
+  vertical-align: middle;
 }
 
 @media screen and (max-width: 650px) {
