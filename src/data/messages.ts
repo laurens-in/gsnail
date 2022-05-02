@@ -23,4 +23,9 @@ export const messages: Message[] = [
     message: "...I see",
     duration: 5000,
   },
+  {
+    message: "So you think you can tell slug from snail?",
+    duration: 0,
+    wait: true,
+  },
 ];

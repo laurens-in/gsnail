@@ -85,6 +85,26 @@ footer {
   display: flex;
   flex-direction: column;
 }
+
+/* .appear {
+  opacity: 1;
+  transition: opacity 2s;
+} */
+
+.appear {
+  animation-name: FadeIn;
+  animation-duration: 3s;
+  transition-timing-function: ease-in;
+}
+
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .rorschach img {
   width: 200px;
   margin: auto;

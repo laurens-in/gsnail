@@ -71,8 +71,10 @@ function App() {
           </div>
         </div>
       )}
-      {progress === 4 && (
-        <div className="rorschach">
+      {(progress === 4 || progress === 5) && (
+        <div
+          className={"rorschach appear" + (progress === 5 ? " disappear" : "")}
+        >
           <img src={rorschach}></img>
           <div className="rorschachButtons">
             <button
