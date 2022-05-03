@@ -1,6 +1,12 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useId, useState } from "react";
+import {
+  CSSTransition,
+  SwitchTransition,
+  TransitionGroup,
+} from "react-transition-group";
 import logo from "./logo.svg";
 import snail from "./assets/snail_creep.gif";
+import slug from "./assets/become_slug.gif";
 import { features } from "./data/features";
 import "./App.css";
 import { Loader } from "./components/Loader";
@@ -10,37 +16,57 @@ import rorschach from "./assets/rorschach.png";
 import { Message } from "./components/Message";
 
 function App() {
-  const [progress, setProgress] = useState<number>(0);
-
   const [count, setCount] = useState(0);
+  const [play, setPlay] = useState(false);
+  const [hide, setHide] = useState(false);
+  const [bad, setBad] = useState(false);
+
+  useEffect(() => {
+    if (count === 2) setHide(true);
+  }, [count]);
+  useEffect(() => {
+    if (!play) setCount(0);
+  }, [play]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={snail}></img>
-        {progress <= 2 && (
-          <h1 className={progress === 2 ? " disappear" : ""}>
+        <img src={!bad ? snail : slug}></img>
+        <CSSTransition
+          in={!hide}
+          timeout={2500}
+          classNames="hide"
+          unmountOnExit
+        >
+          <h1>
             don't use <s>gmail</s>, be a <b>gsnail</b>!
           </h1>
-        )}
-        {progress === 0 && (
-          <button onClick={() => setProgress(1)}>Sign up!</button>
-        )}
-        {progress > 0 && (
-          <>
-            <Loader />
-            <div id="message">
-              <Message
-                count={count}
-                setCount={setCount}
-                setProgress={setProgress}
-              />
-            </div>
-          </>
+        </CSSTransition>
+        {!play ? (
+          <button onClick={() => setPlay(true)}>Sign up!</button>
+        ) : (
+          <Loader />
         )}
       </header>
-      {progress <= 2 && (
-        <div className={"info" + (progress === 2 ? " disappear" : "")}>
+
+      {play && (
+        <>
+          <div id="message">
+            <Message
+              count={count}
+              setCount={setCount}
+              setEnd={() => {
+                setPlay(false);
+                setHide(false);
+                setBad(false);
+              }}
+              setBad={() => setBad(true)}
+            />
+          </div>
+        </>
+      )}
+      <CSSTransition in={!hide} timeout={2500} classNames="hide" unmountOnExit>
+        <div className="info">
           {features.map((feature, index) => (
             <div
               className={"feature" + (index % 2 === 0 ? "" : " odd")}
@@ -70,28 +96,8 @@ function App() {
             </p>
           </div>
         </div>
-      )}
-      {(progress === 4 || progress === 5) && (
-        <div
-          className={"rorschach appear" + (progress === 5 ? " disappear" : "")}
-        >
-          <img src={rorschach}></img>
-          <div className="rorschachButtons">
-            <button
-              onClick={() => setCount(count + 1)}
-              style={{ backgroundColor: "red" }}
-            >
-              Snail
-            </button>
-            <button
-              onClick={() => setCount(count + 1)}
-              style={{ backgroundColor: "green" }}
-            >
-              Slug
-            </button>
-          </div>
-        </div>
-      )}
+      </CSSTransition>
+
       <footer>
         <p>gsnail™ is a trademark owned by Gslug Inc.</p>
       </footer>

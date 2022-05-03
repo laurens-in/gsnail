@@ -1,29 +1,39 @@
 import { useEffect, useState } from "react";
+import { SwitchTransition, CSSTransition } from "react-transition-group";
 import { messages } from "../../data/messages";
 
 interface MessageProps {
   count: number;
   setCount: (count: number) => void;
-  setProgress: (prog: number) => void;
+  setEnd: () => void;
+  setBad: () => void;
 }
 
 export const Message = (props: MessageProps) => {
-  const [currentMessage, setCurrentMessage] = useState<string>("");
+  const [message, setMessage] = useState<Part>();
+  const [localCount, setLocalCount] = useState<number>(0);
+  const next = (number?: number) => {
+    props.setCount(props.count + (number ?? 1));
+  };
 
-  // ugly as hell but works for now :)
   useEffect(() => {
-    // update progress immediatly (wait events, or instant fade out)
-    if (props.count === 2) props.setProgress(2);
-    if (props.count === 3) props.setProgress(3);
-    if (props.count === 5) props.setProgress(5);
-    if (props.count === 6) props.setProgress(6);
-    setCurrentMessage(messages[props.count]?.message);
-    setTimeout(() => {
-      if (!messages[props.count]?.wait && !(props.count > messages.length))
-        props.setCount(props.count + 1);
-      if (props.count === 4) props.setProgress(4);
-    }, messages[props.count]?.duration);
+    setMessage(() => messages[props.count] ?? undefined);
   }, [props.count]);
 
-  return <>{currentMessage}</>;
+  useEffect(() => {
+    message?.end?.(props.setEnd);
+    message?.bad?.(props.setBad);
+    message?.timeOut?.(next);
+    setLocalCount(props.count);
+  }, [message]);
+  return (
+    <>
+      <div>{message?.message}</div>
+      <SwitchTransition mode="out-in">
+        <CSSTransition key={props.count} timeout={1000} classNames="fade">
+          <>{message?.prompt?.(next)}</>
+        </CSSTransition>
+      </SwitchTransition>
+    </>
+  );
 };

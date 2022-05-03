@@ -4,8 +4,12 @@ type Feature = {
   img: string;
 };
 
-type Message = {
+type Part = {
   message: string;
-  duration: number;
-  wait?: boolean;
+  timeOut?: (next: setState) => void;
+  prompt?: (next: setState) => JSX.Element;
+  end?: (end: setState) => void;
+  bad?: (bad: setState) => void;
 };
+
+type setState = (number?: number) => void;

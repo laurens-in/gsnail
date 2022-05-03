@@ -81,39 +81,6 @@ footer {
   margin-top: 30px;
 }
 
-.rorschach {
-  display: flex;
-  flex-direction: column;
-}
-
-/* .appear {
-  opacity: 1;
-  transition: opacity 2s;
-} */
-
-.appear {
-  animation-name: FadeIn;
-  animation-duration: 3s;
-  transition-timing-function: ease-in;
-}
-
-@keyframes FadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-.rorschach img {
-  width: 200px;
-  margin: auto;
-}
-
-.rorschachButtons {
-  margin: auto;
-}
-
 #message {
   min-height: 100px;
   text-align: center;
@@ -131,4 +98,38 @@ footer {
   .featureImg {
     align-self: center;
   }
+}
+
+/* animation */
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-enter-active {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+}
+.fade-enter-active,
+.fade-exit-active {
+  transition: opacity 500ms;
+}
+
+.hide-enter {
+  opacity: 0;
+}
+.hide-enter-active {
+  opacity: 1;
+  transition: opacity 2500ms;
+}
+.hide-exit {
+  opacity: 1;
+}
+.hide-exit-active {
+  opacity: 0;
+  transition: opacity 2500ms;
 }
