@@ -109,7 +109,7 @@ export const messages: Part[] = [
           <button onClick={() => next(3)} style={{ backgroundColor: "green" }}>
             Snail
           </button>
-          <button onClick={() => next(7)} style={{ backgroundColor: "red" }}>
+          <button onClick={() => next(8)} style={{ backgroundColor: "red" }}>
             Slug
           </button>
         </div>
@@ -129,9 +129,12 @@ export const messages: Part[] = [
     timeOut: timeOutDur(medium),
   },
   {
-    message:
-      "our services are busy at the moment, you are placed in our waitlist, we will contact you",
+    message: "our services are busy at the moment",
     timeOut: timeOutDur(medium),
+  },
+  {
+    message: "you are placed in our waitlist, we will contact you...",
+    timeOut: timeOutDur(slow),
   },
   {
     message: "...",

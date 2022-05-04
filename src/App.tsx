@@ -35,9 +35,16 @@ function App() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem("ending"))
+    const end = localStorage.getItem("ending");
+    if (end) {
       setHadEnd(localStorage.getItem("ending") as EndVariant | null);
+    }
   }, []);
+
+  useEffect(() => {
+    if (hadEnd === "boring") setCount(12);
+    if (hadEnd === "final") setCount(13);
+  }, [hadEnd]);
 
   useEffect(() => {
     if (count === 2) setHide(true);
