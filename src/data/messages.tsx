@@ -9,9 +9,9 @@ const endIn =
     setTimeout(() => end(ending), duration);
   };
 
-const fast = 2000 / 2;
-const medium = 4000 / 4;
-const slow = 8000 / 8;
+const fast = 2000;
+const medium = 3000;
+const slow = 5000;
 
 export const messages: Part[] = [
   {
@@ -25,7 +25,7 @@ export const messages: Part[] = [
   {
     message:
       "I can't believe this is happening, please just give me a few seconds to figure this out.",
-    prompt: (next: setState) => <button onClick={() => next()}>ok.</button>,
+    prompt: (next) => <button onClick={() => next()}>ok.</button>,
   },
   {
     message:
@@ -58,15 +58,15 @@ export const messages: Part[] = [
   },
   {
     message: "alright, all under control!",
-    timeOut: timeOutDur(fast),
+    timeOut: timeOutDur(medium),
   },
   {
     message: "now let me ask you a question...",
-    timeOut: timeOutDur(fast, 4),
+    timeOut: timeOutDur(medium, 4),
   },
   {
     message: "what now? you are not happy?",
-    prompt: (next: setState, reset?: () => void) => (
+    prompt: (next, reset?) => (
       <div style={{ display: "flex", justifyContent: "center" }}>
         <button onClick={() => next(2)} style={{ backgroundColor: "green" }}>
           let me try again
@@ -79,11 +79,7 @@ export const messages: Part[] = [
   },
   {
     message: "there's nothing more for you to see here.",
-    prompt: (
-      next: setState,
-      reset?: () => void,
-      end?: (ending: EndVariant) => void
-    ) => (
+    prompt: (next, reset?, end?) => (
       <div style={{ display: "flex", justifyContent: "center" }}>
         <button
           onClick={() => end?.("final")}
@@ -103,7 +99,7 @@ export const messages: Part[] = [
   },
   {
     message: "What do you see in the image down below?",
-    prompt: (next: setState) => (
+    prompt: (next) => (
       <div>
         <img src={rorschach} style={{ width: "200px" }}></img>
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -139,7 +135,7 @@ export const messages: Part[] = [
   },
   {
     message: "...",
-    prompt: (next: setState) => (
+    prompt: (next) => (
       <button onClick={() => next()}>
         do you need my contact information?
       </button>
@@ -159,7 +155,7 @@ export const messages: Part[] = [
   },
   {
     message: "...",
-    prompt: (next: setState) => (
+    prompt: (next) => (
       <button onClick={() => next()}>can you sign me up already?</button>
     ),
   },
@@ -169,7 +165,7 @@ export const messages: Part[] = [
   },
   {
     message: "...",
-    prompt: (next: setState) => <button onClick={() => next()}>why?</button>,
+    prompt: (next) => <button onClick={() => next()}>why?</button>,
   },
   {
     message: "I think you know just as well as I",
@@ -178,7 +174,7 @@ export const messages: Part[] = [
   {
     message: "...",
     timeOut: timeOutDur(10000),
-    bad: (bad: setState) => bad(),
+    bad: (bad) => bad(),
   },
   {
     message: "I am the slug queen! You will feel my wrath!",
