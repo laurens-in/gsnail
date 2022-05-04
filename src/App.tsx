@@ -20,12 +20,30 @@ function App() {
   const [play, setPlay] = useState(false);
   const [hide, setHide] = useState(false);
   const [bad, setBad] = useState(false);
+  const [hadEnd, setHadEnd] = useState<EndVariant | null>(null);
+
+  const remember = (end: EndVariant) => {
+    localStorage.setItem("ending", end);
+    setHadEnd(end);
+  };
+
+  const reset = () => {
+    localStorage.removeItem("ending");
+    setHadEnd(null);
+    setPlay(false);
+    setHide(false);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("ending"))
+      setHadEnd(localStorage.getItem("ending") as EndVariant | null);
+  }, []);
 
   useEffect(() => {
     if (count === 2) setHide(true);
   }, [count]);
   useEffect(() => {
-    if (!play) setCount(0);
+    if (!play && !hadEnd) setCount(0);
   }, [play]);
 
   return (
@@ -43,7 +61,14 @@ function App() {
           </h1>
         </CSSTransition>
         {!play ? (
-          <button onClick={() => setPlay(true)}>Sign up!</button>
+          <button
+            onClick={() => {
+              setPlay(true);
+              if (count > 2) setHide(true);
+            }}
+          >
+            {hadEnd ? "????" : "Sign up!"}
+          </button>
         ) : (
           <Loader />
         )}
@@ -55,12 +80,16 @@ function App() {
             <Message
               count={count}
               setCount={setCount}
-              setEnd={() => {
+              setEnd={(end: EndVariant) => {
                 setPlay(false);
                 setHide(false);
                 setBad(false);
+                remember(end);
+                if (end === "boring") setCount(12);
+                if (end === "final") setCount(13);
               }}
               setBad={() => setBad(true)}
+              reset={() => reset()}
             />
           </div>
         </>

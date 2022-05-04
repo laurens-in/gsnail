@@ -1,14 +1,17 @@
 import rorschach from "../assets/rorschach.png";
 
-const timeOutDur = (duration: number) => (next: setState) =>
-  setTimeout(() => next(), duration);
+const timeOutDur = (duration: number, jump?: number) => (next: setState) => {
+  setTimeout(() => next(jump ?? 1), duration);
+};
 
-const endIn = (duration: number) => (end: setState) =>
-  setTimeout(() => end(), duration);
+const endIn =
+  (duration: number, ending: EndVariant) => (end: (e: EndVariant) => void) => {
+    setTimeout(() => end(ending), duration);
+  };
 
-const fast = 2000;
-const medium = 4000;
-const slow = 8000;
+const fast = 2000 / 2;
+const medium = 4000 / 4;
+const slow = 8000 / 8;
 
 export const messages: Part[] = [
   {
@@ -59,7 +62,44 @@ export const messages: Part[] = [
   },
   {
     message: "now let me ask you a question...",
-    timeOut: timeOutDur(fast),
+    timeOut: timeOutDur(fast, 4),
+  },
+  {
+    message: "what now? you are not happy?",
+    prompt: (next: setState, reset?: () => void) => (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button onClick={() => next(2)} style={{ backgroundColor: "green" }}>
+          let me try again
+        </button>
+        <button onClick={() => reset?.()} style={{ backgroundColor: "red" }}>
+          reset
+        </button>
+      </div>
+    ),
+  },
+  {
+    message: "there's nothing more for you to see here.",
+    prompt: (
+      next: setState,
+      reset?: () => void,
+      end?: (ending: EndVariant) => void
+    ) => (
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <button
+          onClick={() => end?.("final")}
+          style={{ backgroundColor: "green" }}
+        >
+          ok.
+        </button>
+        <button onClick={() => reset?.()} style={{ backgroundColor: "red" }}>
+          reset
+        </button>
+      </div>
+    ),
+  },
+  {
+    message: "I'll give you another try",
+    timeOut: timeOutDur(medium),
   },
   {
     message: "What do you see in the image down below?",
@@ -86,7 +126,7 @@ export const messages: Part[] = [
   },
   {
     message: "now move along peasant!",
-    end: endIn(medium),
+    end: endIn(medium, "boring"),
   },
   {
     message: "very well!",
@@ -107,7 +147,7 @@ export const messages: Part[] = [
   },
   {
     message: "we know how to contact you, now please, move along...",
-    end: endIn(medium),
+    end: endIn(medium, "boring"),
   },
   {
     message: "...I see",
@@ -150,6 +190,6 @@ export const messages: Part[] = [
   },
   {
     message: "now go, and don't tell anybody what you've seen here...",
-    end: endIn(5000),
+    end: endIn(5000, "final"),
   },
 ];

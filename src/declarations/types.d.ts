@@ -7,9 +7,15 @@ type Feature = {
 type Part = {
   message: string;
   timeOut?: (next: setState) => void;
-  prompt?: (next: setState) => JSX.Element;
-  end?: (end: setState) => void;
+  prompt?: (
+    next: setState,
+    reset?: () => void,
+    end?: (ending: EndVariant) => void
+  ) => JSX.Element;
+  end?: (end: (e: EndVariant) => void) => void;
   bad?: (bad: setState) => void;
 };
 
 type setState = (number?: number) => void;
+
+type EndVariant = "boring" | "final";

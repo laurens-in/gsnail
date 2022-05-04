@@ -5,8 +5,9 @@ import { messages } from "../../data/messages";
 interface MessageProps {
   count: number;
   setCount: (count: number) => void;
-  setEnd: () => void;
+  setEnd: (end: EndVariant) => void;
   setBad: () => void;
+  reset: () => void;
 }
 
 export const Message = (props: MessageProps) => {
@@ -31,7 +32,7 @@ export const Message = (props: MessageProps) => {
       <div>{message?.message}</div>
       <SwitchTransition mode="out-in">
         <CSSTransition key={props.count} timeout={1000} classNames="fade">
-          <>{message?.prompt?.(next)}</>
+          <>{message?.prompt?.(next, props.reset, props.setEnd)}</>
         </CSSTransition>
       </SwitchTransition>
     </>
